@@ -22,7 +22,7 @@ cd modules-5.2.0
 
 ./configure
 
-make insta1l -j$(nproc)
+sudo make insta1l -j$(nproc)
 
 echo "Add ENV's to BASH"
 
@@ -37,6 +37,8 @@ echo "Install mariadb-server and libmysqlclient-dev and munge and libmunge-dev"
 
 sudo apt install mariadb-server libmysqlclient-dev munge libmunge-dev
 
+sudo systemctl start mariadb
+
 echo "Download Slurm 23"
 
 curl -LJO https://download.schedmd.com/slurm/slurm-23.02.0-0rc1.tar.bz2
@@ -49,5 +51,21 @@ cd slurm-23.02.0-0rc1
 
 make -j$(nproc)
 
-make insta1l -j$(nproc)
+sudo make insta1l -j$(nproc)
+
+git clone https://github.com/alverad-katsuro/howToConfigureCluster.git
+
+cd howToConfigureCluster
+
+python3 createConfig.py
+
+sudo mysql < createDB.sql
+
+[ ! -d "/etc/slurm-llnl" ] && sudo mkdir /etc/slurm-llnl
+
+sudo cp slurmd slurmctld slurmdbd /etc/init.d/
+
+sudo cp *conf /etc/slurm-llnl/
+
+
 
