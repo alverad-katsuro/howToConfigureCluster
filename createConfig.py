@@ -76,5 +76,5 @@ with open("slurm.conf", "w") as  slurm:
 
 
 with open("createDB.sql", "w") as  createDB:
-    createDB.writelines("create database slurm_acct_db;")
-    createDB.writelines("grant all on slurm_acct_db.* TO 'slurm'@'localhost' identified by '{0}' with grant option;".format(hostname))
+    createDB.writelines("create database slurm_acct_db;\n")
+    createDB.writelines("grant all on slurm_acct_db.* TO 'slurm'@'localhost' identified by '{0}' with grant option;\n".format(hostname))
