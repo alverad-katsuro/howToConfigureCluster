@@ -4,9 +4,9 @@
 
 ## Instalação do Module Environment
 
-echo "Install => TCL8 | make | cmake | curl build-essential"
+echo "Install => TCL8 | make | cmake | curl build-essential git"
 
-sudo apt install tcl8.6-dev make cmake
+sudo apt install tcl8.6-dev make cmake git
 
 echo "Download Environment Module"
 
