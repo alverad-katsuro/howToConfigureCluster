@@ -2,6 +2,11 @@
 
 # Tutorial para instalar as configurações basicas de um Cluster.
 
+# Exportar variavel PATH com o executavel no arquivo /etc/bash.bashrc para afetar todos os usuarios
+
+#export PATH=/usr/local/sbin:$PATH
+
+
 ## Instalação do Module Environment
 
 echo "Install => TCL8 | make | cmake | curl build-essential git"
@@ -35,7 +40,10 @@ echo "Install Slurm"
 
 echo "Install mariadb-server and libmysqlclient-dev and munge and libmunge-dev"
 
+#Mx linux default-libmysqlclient-dev 
+
 sudo apt install mariadb-server libmysqlclient-dev munge libmunge-dev
+sudo apt install libpam-cgroup libcgroup-dev libdbus-1-dev
 
 sudo systemctl start mariadb
 
@@ -61,6 +69,10 @@ python3 createConfig.py
 
 sudo mysql < createDB.sql
 
+export SLURMUSER=9000
+sudo groupadd -g $SLURMUSER slurm
+sudo useradd  -m -c "SLURM workload manager" -d /var/lib/slurm -u $SLURMUSER -g slurm  -s /bin/bash slurm
+
 [ ! -d "/etc/slurm-llnl" ] && sudo mkdir /etc/slurm-llnl
 
 [ ! -d "/var/spool/state" ] && sudo mkdir /var/spool/state && sudo chown slurm:slurm /var/spool/state
@@ -75,3 +87,16 @@ sudo cp slurmd slurmctld slurmdbd /etc/init.d/
 sudo cp *conf /etc/slurm-llnl/
 
 sudo chmod 600 /etc/slurm-llnl/slurmdbd.conf
+sudo chown slurm:slurm /etc/slurm-llnl/slurmdbd.conf
+
+
+# criar usuarios para fila
+#sudo sacctmgr
+# create account cprus 
+# create user rogerio account=cprus
+# create user rogerio,gert account=cprus
+# modify user where account=curupiras set qos=curupiras
+# create qos cprusgpu, cprus
+# modify user where account=cprus set qos=cprus,cprusgpu
+# modify qos cprus set MaxTRES=cpu=30
+# modify qos cprusgpu set MAXTres=cpu=2,gres/gpu=0
