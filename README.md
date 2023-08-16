@@ -63,9 +63,15 @@ sudo mysql < createDB.sql
 
 [ ! -d "/etc/slurm-llnl" ] && sudo mkdir /etc/slurm-llnl
 
+[ ! -d "/var/spool/state" ] && sudo mkdir /var/spool/state && sudo chown slurm:slurm /var/spool/state
+
+[ ! -d "/var/spool/slurmd" ] && sudo mkdir /var/spool/slurmd && sudo chown slurm:slurm /var/spool/slurmd
+
+[ ! -d "/var/log/slurm" ] && sudo mkdir /var/log/slurm && sudo chown slurm:slurm /var/log/slurm
+
+
 sudo cp slurmd slurmctld slurmdbd /etc/init.d/
 
 sudo cp *conf /etc/slurm-llnl/
 
-
-
+sudo chmod 600 /etc/slurm-llnl/slurmdbd.conf
